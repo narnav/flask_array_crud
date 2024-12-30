@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}Car List{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- update -->
+    <h1>Available Products</h1>
+    <form >
+        <label for="price">price:</label><br>
+        <input type="text" id="price" name="price" required><br><br>
+    
+        <label for="desc">desc:</label><br>
+        <textarea id="desc" name="desc" rows="4" cols="50" required></textarea><br><br>
+    
+        <input type="button" onclick="send_data()" value="Add Item">
+    </form>
+    <!-- Read, Del , Update  -->
+    {% for prod in my_products %}
+    <button onclick="del_prod({{ prod.id }})">Del</button><button onclick="upd_prod({{ prod.id }})">Upd</button> price: {{ prod.price }}, desc: {{ prod.desc }}<br>
+    {% endfor %}
+
+</div>
+<script>
+    const del_prod = (id) => {
+        axios.delete(`http://127.0.0.1:5000/del/${id}`)
+    }
+    const upd_prod = (id) => {
+        axios.put(`http://127.0.0.1:5000/upd/${id}`, {
+            price: price.value,
+            desc: desc.value
+        })
+    }
+</script>
+<!-- {"id":1,"price":2,"desc":"pizza"} -->
+{% endblock %}
